@@ -9,17 +9,17 @@ defaultEntryPoints = ["http", "https"]
     [entryPoints.https.tls]
 
 [acme]
-  email = "admin@gravitee-lab.io"
+  email = "admin@pegasusio.io"
   storage = "/etc/traefik/acme.json"
   entryPoint = "https"
   caServer = "https://acme-staging.api.letsencrypt.org/directory"
 
 [[acme.domains]]
-  main = "git.gravitee-lab.io"
+  main = "git.pegasusio.io"
 [[acme.domains]]
-  main = "drone.gravitee-lab.io"
+  main = "drone.pegasusio.io"
 [[acme.domains]]
-  main = "support.gravitee-lab.io"
+  main = "support.pegasusio.io"
 
 [file]
 

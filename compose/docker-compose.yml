@@ -10,7 +10,7 @@ services:
       - dbdata:/data
       - ./config/gitea-app.ini:/data/gitea/conf/app.ini
     labels:
-      - "traefik.frontend.rule=Host:git.gravitee-lab.io"
+      - "traefik.frontend.rule=Host:git.pegasusio.io"
   drone:
     image: drone/drone:0.8
     restart: always
@@ -20,16 +20,16 @@ services:
       - dbdata:/var/lib/drone/
     environment:
       - DRONE_OPEN=true
-      - DRONE_HOST=https://drone.gravitee-lab.io
+      - DRONE_HOST=https://drone.pegasusio.io
       - DRONE_SECRET=drone-workshop
       - DRONE_ADMIN=barim
       # Gitea Config
       - DRONE_GITEA=true
-      - DRONE_GITEA_URL=https://git.gravitee-lab.io
+      - DRONE_GITEA_URL=https://git.pegasusio.io
       - DRONE_GITEA_SKIP_VERIFY=true
       - DRONE_NETWORK=gitea-network
     labels:
-      - "traefik.frontend.rule=Host:drone.gravitee-lab.io"
+      - "traefik.frontend.rule=Host:drone.pegasusio.io"
   drone-agent:
     image: drone/agent:0.8
     restart: always
@@ -68,7 +68,7 @@ services:
     links:
       - osticketdb
       - smtp
-      
+
   smtp:
     image: softinnov/gmailsmtp
     env_file: env/smtp.secret

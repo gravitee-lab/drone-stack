@@ -9,18 +9,18 @@ defaultEntryPoints = ["http", "https"]
     [entryPoints.https.tls]
 
 [acme]
-  email = "admin@gravitee-lab.io"
+  email = "admin@pegasusio.io"
   storage = "/etc/traefik/acme.json"
   entryPoint = "https"
   [acme.httpChallenge]
     entryPoint = "http"
 
 [[acme.domains]]
-  main = "git.gravitee-lab.io"
+  main = "git.pegasusio.io"
 [[acme.domains]]
-  main = "drone.gravitee-lab.io"
+  main = "drone.pegasusio.io"
 [[acme.domains]]
-  main = "support.gravitee-lab.io"
+  main = "support.pegasusio.io"
 
 [file]
 
@@ -40,14 +40,14 @@ defaultEntryPoints = ["http", "https"]
       backend = "drone"
       passHostHeader = true
       [frontends.drone.routes.example]
-      rule = "Host:drone.gravitee-lab.io"
+      rule = "Host:drone.pegasusio.io"
   [frontends.gitea]
       backend = "gitea"
       passHostHeader = true
       [frontends.gitea.routes.example]
-      rule = "Host:git.gravitee-lab.io"
+      rule = "Host:git.pegasusio.io"
   [frontends.osticket]
       backend = "osticket"
       passHostHeader = true
       [frontends.osticket.routes.example]
-      rule = "Host:support.gravitee-lab.io"
+      rule = "Host:support.pegasusio.io"
