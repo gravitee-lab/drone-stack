@@ -71,29 +71,7 @@ echo "--"
 
 ```
 
-* the `/etc/hosts` (replace `192.168.1.28` with the IP Address of your VM) :
-
-```bash
-192.168.1.28 git.pegasusio.io drone.pegasusio.io support.pegasusio.io
-```
-
-* old :
-
-```bash
-git clone https://github.com/hamdouni/gitea-drone ~/gitea-drone
-cd ~/gitea-drone
-# là, il faut editer le docker-compose pour ouvrir le port 8000 pour le drone
-# il faut aussi changer la valuer de la var. env. `DRONE_HOST` :
-sed -i "s#https://drone.pegasusio.io#http://drone.kytes.io:8000#g" docker-compose.yml
-# and use /etc/hosts from machines from which you access drone with http://drone.kytes.io:8000
-cp env/osticketdb.secret-config env/osticketdb.secret
-cp env/osticket.secret-config env/osticket.secret
-cp /home/jbl/gitea-drone/env/smtp.secret-config /home/jbl/gitea-drone/env/smtp.secret
-make
-
-#
-```
-
+* started work from https://github.com/hamdouni/gitea-drone
 
 
 # IAAC Cycle
