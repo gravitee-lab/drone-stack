@@ -20,12 +20,12 @@ services:
       - dbdata:/var/lib/drone/
     environment:
       - DRONE_OPEN=true
-      - DRONE_HOST=https://drone.pegasusio.io
+      - DRONE_HOST=http://drone:8000
       - DRONE_SECRET=drone-workshop
-      - DRONE_ADMIN=barim
+      - DRONE_ADMIN=jbl
       # Gitea Config
       - DRONE_GITEA=true
-      - DRONE_GITEA_URL=https://git.pegasusio.io
+      - DRONE_GITEA_URL=http://gitea:3000
       - DRONE_GITEA_SKIP_VERIFY=true
       - DRONE_NETWORK=gitea-network
     labels:
@@ -68,10 +68,17 @@ services:
     links:
       - osticketdb
       - smtp
-
+    labels:
+      - "traefik.frontend.rule=Host:support.pegasusio.io"
   smtp:
-    image: softinnov/gmailsmtp
+    # image: softinnov/gmailsmtp
     env_file: env/smtp.secret
+    restart: "no"
+    image: mailhog/mailhog
+    command: ["-smtp-bind-addr", "0.0.0.0:25"]
+    user: root
+    ports:
+        - 8025:8025
 
   reverse_proxy:
     image: traefik:1.7
