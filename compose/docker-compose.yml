@@ -9,8 +9,8 @@ services:
         volumes:
             - dbdata:/data
             - ./config/gitea-app.ini:/data/gitea/conf/app.ini
-    labels:
-      - "traefik.frontend.rule=Host:git.gravitee-lab.io"
+        labels:
+            - "traefik.frontend.rule=Host:git.gravitee-lab.io"
     drone:
         image: drone/drone:0.8
         restart: always
@@ -28,8 +28,8 @@ services:
             - DRONE_GITEA_URL=https://git.gravitee-lab.io
             - DRONE_GITEA_SKIP_VERIFY=true
             - DRONE_NETWORK=gitea-network
-    labels:
-      - "traefik.frontend.rule=Host:drone.gravitee-lab.io"
+        labels:
+            - "traefik.frontend.rule=Host:drone.gravitee-lab.io"
     drone-agent:
         image: drone/agent:0.8
         restart: always
