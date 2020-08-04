@@ -24,6 +24,9 @@ cp ./env/smtp.secret-config ./env/smtp.secret
 
 make
 
+# And finally create the demo user in gitea
+docker-compose exec gitea su git -c "gitea admin create-user --admin --name demo --password demo --email demo@gravitee-lab.io"
+
 ```
 
 * the `/etc/hosts` (replace `192.168.1.28` with the IP Address of your VM) :
@@ -45,6 +48,8 @@ cp env/osticketdb.secret-config env/osticketdb.secret
 cp env/osticket.secret-config env/osticket.secret
 cp /home/jbl/gitea-drone/env/smtp.secret-config /home/jbl/gitea-drone/env/smtp.secret
 make
+
+#
 ```
 
 
