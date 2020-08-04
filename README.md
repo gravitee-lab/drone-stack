@@ -46,8 +46,6 @@ git checkout ${DESIRED_VERSION}
 
 cd compose/
 
-
-# and use /etc/hosts from machines from which you access drone with http://drone.kytes.io:8000
 cp ./env/osticketdb.secret-config ./env/osticketdb.secret
 cp ./env/osticket.secret-config ./env/osticket.secret
 cp ./env/smtp.secret-config ./env/smtp.secret
@@ -64,6 +62,13 @@ echo "Tear down : "
 echo "--"
 echo 'docker-compose down --rmi all && docker system prune -f --all && docker system prune -f --volumes'
 echo "--"
+echo "- You can now locally access drone, gitea using : "
+echo "--"
+echo "# gitea # curl -ivk https://127.0.0.1/"
+echo "# drone # curl -ivk https://0.0.0.0/"
+# echo "# osticket support software # curl -ivk https://localhost/"
+echo "--"
+
 ```
 
 * the `/etc/hosts` (replace `192.168.1.28` with the IP Address of your VM) :
