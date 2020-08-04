@@ -29,7 +29,7 @@ services:
         ports:
             - 8025:8025
 
-    proxy:
+    reverse_proxy:
         restart: "no"
         volumes:
             - ./traefik/staging:/etc/traefik

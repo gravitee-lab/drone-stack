@@ -68,6 +68,7 @@ services:
     links:
       - osticketdb
       - smtp
+      
   smtp:
     image: softinnov/gmailsmtp
     env_file: env/smtp.secret
