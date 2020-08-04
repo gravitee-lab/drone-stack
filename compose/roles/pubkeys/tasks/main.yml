@@ -1,0 +1,6 @@
+- name : Set authorized keys
+  authorized_key:
+    user: root
+    key: '{{ item }}'
+  with_file:
+    - certs/bilbo_sauvegarde_id_rsa.pub

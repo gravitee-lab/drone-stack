@@ -1,0 +1,52 @@
+defaultEntryPoints = ["http", "https"]
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+[acme]
+  email = "admin@gravitee-lab.io"
+  storage = "/etc/traefik/acme.json"
+  entryPoint = "https"
+  caServer = "https://acme-staging.api.letsencrypt.org/directory"
+
+[[acme.domains]]
+  main = "git.gravitee-lab.io"
+[[acme.domains]]
+  main = "drone.gravitee-lab.io"
+[[acme.domains]]
+  main = "support.gravitee-lab.io"
+
+[file]
+
+[backends]
+  [backends.gitea]
+    [backends.gitea.servers.server1]
+       url = "http://gitea:3000"
+  [backends.drone]
+    [backends.drone.servers.server1]
+       url = "http://drone:8000"
+  [backends.osticket]
+    [backends.osticket.servers.server1]
+       url = "http://osticket"
+
+[frontends]
+  [frontends.drone]
+      backend = "drone"
+      passHostHeader = true
+      [frontends.drone.routes.example]
+      rule = "Host:0.0.0.0"
+  [frontends.gitea]
+      backend = "gitea"
+      passHostHeader = true
+      [frontends.gitea.routes.example]
+      rule = "Host:127.0.0.1"
+  [frontends.osticket]
+      backend = "osticket"
+      passHostHeader = true
+      [frontends.osticket.routes.example]
+      rule = "Host:localhost"

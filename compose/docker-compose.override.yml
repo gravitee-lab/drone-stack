@@ -1,0 +1,35 @@
+version: "3"
+services:
+
+    gitea:
+        restart: "no"
+        volumes:
+            - ./config/gitea-dev-app.ini:/data/gitea/conf/app.ini
+
+    drone:
+        restart: "no"
+        environment:
+            - DRONE_HOST=http://drone:8000
+            - DRONE_GITEA_URL=http://gitea:3000
+
+    drone-agent:
+        restart: "no"
+
+    osticketdb:
+        restart: "no"
+
+    osticket:
+        restart: "no"
+
+    smtp:
+        restart: "no"
+        image: mailhog/mailhog
+        command: ["-smtp-bind-addr", "0.0.0.0:25"]
+        user: root
+        ports:
+            - 8025:8025
+
+    proxy:
+        restart: "no"
+        volumes:
+            - ./traefik/staging:/etc/traefik

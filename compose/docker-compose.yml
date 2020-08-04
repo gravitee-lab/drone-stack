@@ -1,0 +1,95 @@
+version: "3"
+services:
+
+    gitea:
+        image: gitea/gitea:latest
+        restart: always
+        ports:
+            - "2222:22"
+        volumes:
+            - dbdata:/data
+            - ./config/gitea-app.ini:/data/gitea/conf/app.ini
+
+    drone:
+        image: drone/drone:0.8
+        restart: always
+        depends_on:
+            - gitea
+        volumes:
+            - dbdata:/var/lib/drone/
+        environment:
+            - DRONE_OPEN=true
+            - DRONE_HOST=https://drone.gravitee-lab.io
+            - DRONE_SECRET=drone-workshop
+            - DRONE_ADMIN=barim
+            # Gitea Config
+            - DRONE_GITEA=true
+            - DRONE_GITEA_URL=https://git.gravitee-lab.io
+            - DRONE_GITEA_SKIP_VERIFY=true
+            - DRONE_NETWORK=gitea-network
+
+    drone-agent:
+        image: drone/agent:0.8
+        restart: always
+        depends_on:
+            - drone
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - DRONE_SERVER=drone:9000
+            - DRONE_SECRET=drone-workshop
+            - DRONE_MAX_PROCS=3
+
+    osticketdb:
+        image: mariadb
+        restart: always
+        env_file: env/osticketdb.secret
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            MYSQL_DATABASE: 'osticket'
+        volumes:
+            - dbost:/var/lib/mysql
+
+    osticket:
+        image: hamdouni/docker-osticket
+        restart: always
+        depends_on:
+            - osticketdb
+        env_file: env/osticket.secret
+        environment:
+            MYSQL_HOST: osticketdb
+            SMTP_HOST: 'smtp'
+            SMTP_HOSTNAME: 'smtp'
+            SMTP_PORT: '25'
+            SMTP_FROM: 'osticket'
+            SMTP_TLS: '0'
+        links:
+            - osticketdb
+            - smtp
+
+    smtp:
+        image: softinnov/gmailsmtp
+        env_file: env/smtp.secret
+
+    proxy:
+        image: traefik:1.7
+        restart: always
+        command: --logLevel=ERROR
+        links:
+            - gitea
+            - drone
+            - osticket
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./traefik/prod:/etc/traefik
+
+volumes:
+    dbdata:
+    dbost:
+
+networks:
+  default:
+    external:
+      name: gitea-network

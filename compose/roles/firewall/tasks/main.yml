@@ -1,0 +1,28 @@
+- name: Install ufw
+  apt: package=ufw state=present
+
+- name: Reset ufw
+  ufw: state=reset
+
+- name: Configure ufw defaults
+  ufw: direction={{ item.direction }} policy={{ item.policy }}
+  with_items:
+    - { direction: 'incoming', policy: 'deny' }
+    - { direction: 'outgoing', policy: 'allow' }
+
+- name: Configure ufw rules
+  ufw: rule={{ item.rule }} port={{ item.port }} proto={{ item.proto }} src={{ item.src }}
+  with_items:
+    - { rule: 'allow', port: '', proto: 'tcp', src: '172.17.0.0/16' }                               # docker containers
+    - { rule: 'limit', port: '{{ ssh_port | default("22") }}', proto: 'tcp', src: '82.253.88.234' } # free@home
+    - { rule: 'limit', port: '{{ ssh_port | default("22") }}', proto: 'tcp', src: '81.64.0.0/16' }  # numericable@work
+    - { rule: 'limit', port: '{{ ssh_port | default("22") }}', proto: 'tcp', src: '82.229.179.62' } # free@work
+    - { rule: 'allow', port: '80', proto: 'tcp', src: '' }
+    - { rule: 'allow', port: '443', proto: 'tcp', src: '' }
+    - { rule: 'allow', port: '2222', proto: 'tcp', src: '' }
+
+- name: disable ufw logging
+  ufw: logging=off
+
+- name: Enable ufw
+  ufw: state=enabled

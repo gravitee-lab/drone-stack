@@ -1,0 +1,11 @@
+- name: get docker if not available
+  get_url: url="https://get.docker.com" dest="/tmp/d.sh" validate_certs="yes" mode="u+x"
+- name: install docker
+  raw: test -e /usr/bin/docker || (/tmp/d.sh)
+- service: name=docker state=restarted
+- name: install docker-compose
+  get_url:
+      url: https://github.com/docker/compose/releases/download/1.16.1/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      validate_certs: no
+      mode: u+x

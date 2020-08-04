@@ -1,0 +1,24 @@
+---
+- hosts: dev
+  remote_user: root
+
+  tasks:
+  - name: rsync files
+    synchronize: src={{item.src}} dest={{item.dest}} recursive='yes'
+    with_items:
+    - { src: '../docker-compose.yml', dest: '/gitea-drone/' }
+    - { src: '../config/gitea-app.ini', dest: '/gitea-drone/' }
+    - { src: '../traefik/prod', dest: '/gitea-drone/traefik/' }
+    - { src: '../env', dest: '/gitea-drone/'}
+
+  - name: stop all
+    shell: cd /gitea-drone && docker-compose down
+
+  - name: delete network
+    shell: docker network rm gitea-network || echo "Network does not exist"
+
+  - name: recreate network
+    shell: docker network create gitea-network || echo "Can't create docker network, already created ?"
+  
+  - name: run
+    shell: cd /gitea-drone && docker-compose up -d

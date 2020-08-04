@@ -1,0 +1,6 @@
+- name: Install ntpdate
+  apt: package=ntpdate state=present
+
+- name: set timezone to Europe/Paris
+  timezone:
+    name: Europe/Paris
