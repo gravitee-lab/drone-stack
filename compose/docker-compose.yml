@@ -76,7 +76,6 @@ services:
     reverse_proxy:
         image: traefik:1.7
         restart: always
-        # command: --logLevel=ERROR
         command: --logLevel=DEBUG
         links:
             - gitea
