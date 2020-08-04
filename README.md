@@ -27,6 +27,12 @@ make
 # And finally create the demo user in gitea
 docker-compose exec gitea su git -c "gitea admin create-user --admin --name demo --password demo --email demo@gravitee-lab.io"
 
+echo "--"
+echo "Tear down : "
+echo "--"
+echo 'docker-compose down --rmi all && docker system prune -f --all && docker system prune -f --volumes'
+echo "--"
+
 ```
 
 * the `/etc/hosts` (replace `192.168.1.28` with the IP Address of your VM) :

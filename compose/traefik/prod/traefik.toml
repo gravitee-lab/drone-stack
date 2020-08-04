@@ -12,8 +12,8 @@ defaultEntryPoints = ["http", "https"]
   email = "admin@gravitee-lab.io"
   storage = "/etc/traefik/acme.json"
   entryPoint = "https"
-[acme.httpChallenge]
-  entryPoint = "http"
+  [acme.httpChallenge]
+    entryPoint = "http"
 
 [[acme.domains]]
   main = "git.gravitee-lab.io"
