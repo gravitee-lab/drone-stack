@@ -13,7 +13,8 @@ defaultEntryPoints = ["http", "https"]
   storage = "/etc/traefik/acme.json"
   entryPoint = "https"
   caServer = "https://acme-staging.api.letsencrypt.org/directory"
-
+  [acme.httpChallenge]
+    entryPoint = "http"
 [[acme.domains]]
   main = "git.pegasusio.io"
 [[acme.domains]]
