@@ -1,22 +1,11 @@
 # How to run
 
+* Configure all required subdomains (`drone.pegasusio.io`, `git.pegasusio.io`) CNAME entires, and Elastic IP for the domain name used for the demo (here `pegasusio.io`, which I bought at Goddady.com) :
+
+![godaddy conf](./documentation/images/screenshots/GO_DADDY_DNS_CONFIG_EIP.png)
+
 * Run the `terraform` to provision the AWS EC2 instance :
-  * first, you need your AWS credentials `~/.aws/credentials` :
-
-```ini
-[default]
-aws_access_key_id=AKIAIOSFODNN7EXAMPLE
-aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-```
-
-  * and your AWS config `~/.aws/config` :
-
-```ini
-[default]
-region=eu-west-1
-output=json
-```
-
+  * first, you need your AWS credentials `~/.aws/credentials` (the recipe will interactivvely ask for those) :
   * now you can run the terraform :
 
 ```bash
@@ -33,15 +22,15 @@ git checkout ${DESIRED_VERSION}
 
 cd terraform/
 
-echo "implementation not finished"
+./apply.sh
+# ./detroy.sh
 
 ```
+  * Once the terraformation has successfully completed, the output will give you the public (Elastic) IP Address of the new EC2 instance, among other infos, like how to ssh into it.
+  * ssh into the newly terraformed VM, and execute the docker/docker-compose installation using the `./terraform/post-install/docker-stack.sh` script ins this repo.
+  * this script will also generate an SSH key pair to be able to git clone with SSH. You will need to add the SSH public key to your Github user settings.
 
-* Configure all required subdomains (`drone.pegasusio.io`, `git.pegasusio.io`) :
-
-![godaddy conf](./documentation/images/screenshots/GRAVITEE_DRONE_STACK_GO_DADDY_DNS_2020-08-04 12-05-32.png)
-
-* On a VM with `docker` and `docker-compose` Run the docker compose to provision the `Drone CI` Stack :
+* Now you're ready Run the docker compose to provision the `Drone CI` Stack :
 
 ```bash
 export GIT_URI=git@github.com:gravitee-lab/drone-stack.git
