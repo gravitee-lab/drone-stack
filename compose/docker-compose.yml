@@ -71,7 +71,7 @@ services:
         image: softinnov/gmailsmtp
         env_file: env/smtp.secret
 
-    proxy:
+    reverse_proxy:
         image: traefik:1.7
         restart: always
         # command: --logLevel=ERROR
